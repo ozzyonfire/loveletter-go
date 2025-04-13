@@ -11,8 +11,8 @@ func TestKing(t *testing.T) {
 	}
 
 	// Setup test players
-	player1 := &game.players[0]
 	player2 := &game.players[1]
+	player1 := &game.players[0]
 
 	// Give players test hands
 	king := NewKing()

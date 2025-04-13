@@ -161,13 +161,30 @@ type Prince struct {
 
 func NewPrince() *Prince {
 	return &Prince{
-		BaseCard: *NewCard("Prince", 5)
+		BaseCard: *NewCard("Prince", 5),
 	}
 }
 
 func (p *Prince) Effect(game *Game, player *Player) error {
 	index := Prompt(game.players)
+	var chosenUser = game.players[index]
+	chosenUser.DiscardHand()
+	return nil
+}
 
-	// Discard that players hand
-	
+// Handmaid
+
+type Handmaid struct {
+	BaseCard
+}
+
+func NewHandmaid() *Handmaid {
+	return &Handmaid{
+		BaseCard: *NewCard("Handmaid", 4),
+	}
+}
+
+func (h *Handmaid) Effect(game *Game, player *Player) error {
+	player.protected = true
+	return nil
 }

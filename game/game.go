@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"slices"
 )
 
 type Game struct {
@@ -183,7 +184,6 @@ func (g *Game) roundLoop() {
 		// get the next player
 		g.nextPlayer()
 	}
-
 }
 
 func (g *Game) nextPlayer() {
@@ -196,4 +196,29 @@ func (g *Game) nextPlayer() {
 
 func (g *Game) SwapHands(player1 *Player, player2 *Player) {
 	player1.hand, player2.hand = player2.hand, player1.hand
+}
+
+// TODO: players needs to be different from Round Players
+func (g *Game) RemovePlayer(player Player) error {
+	var index = -1
+	for i, p := range g.players {
+		if p.Name == player.Name {
+			index = i
+			break
+		}
+	}
+
+	if index == -1 {
+		return errors.New("player not found")
+	}
+
+	g.players = slices.Delete(g.players, index, index+1)
+
+	if index < g.currentPlayerIndex {
+		g.currentPlayerIndex--
+	}
+	if g.currentPlayerIndex >= len(g.players) {
+		g.currentPlayerIndex = 0
+	}
+	return nil
 }
